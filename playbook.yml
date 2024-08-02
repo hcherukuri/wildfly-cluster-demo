@@ -1,7 +1,6 @@
 ---
 - name: "{{ install_name }} installation and configuration"
-  hosts: "{{ hosts_group_name | default('all') }}"
-  remote_user: root
+  hosts: wildfly
   vars:
     wildfly_install_workdir: '/opt'
     install_name: "{{ override_install_name | default('wildfly') }}"
@@ -10,23 +9,20 @@
     wildfly_home: "{{ wildfly_install_workdir }}/{{ install_name }}-{{ wildfly_version }}"
     instance_http_ports:
       - 8080
-      - 8180
-      - 8280
     app:
       name: 'helloworld.war'
       url: 'https://drive.google.com/uc?export=download&id=16HOaSVF0bSYyjc8a8hkEiDlTqgJuGJfe'
     ansible_distribution: 'RedHat'
   collections:
-    - middleware_automation.redhat_csp_download
     - middleware_automation.wildfly
-  roles:
-    - redhat_csp_download
-    - wildfly_install
   tasks:
+    - name: Include wildfly role
+      ansible.builtin.include_role:
+        name: middleware_automation.wildfly.wildfly_install
 
     - name: "Set up for Wildfly instance {{ item }}"
       include_role:
-        name: wildfly_systemd
+        name:  middleware_automation.wildfly.wildfly_systemd
       vars:
         wildfly_config_base: 'standalone-ha.xml'
         wildfly_basedir_prefix: "/opt/{{ install_name }}-{{ item }}"
@@ -54,8 +50,7 @@
         jboss_cli_query: "'deploy --force {{ wildfly_install_workdir }}/{{ app.name }}'"
         jboss_cli_controller_port: "{{ item }}"
       loop:
-        - 10090
-        - 10190
+        - 9990
 
   post_tasks:
     - include_tasks: validate.yml
