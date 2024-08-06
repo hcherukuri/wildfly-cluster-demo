@@ -1,6 +1,8 @@
 ---
 - name: "{{ install_name }} installation and configuration"
-  hosts: wildfly
+  hosts: label_app_demo
+  gather_facts: false
+  connection: local
   vars:
     wildfly_install_workdir: '/opt'
     install_name: "{{ override_install_name | default('wildfly') }}"
