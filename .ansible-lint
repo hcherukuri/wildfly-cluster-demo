@@ -1,0 +1,14 @@
+---
+# ansible-lint configuration
+profile: production
+
+skip_list:
+  # Allow older-style include_role without FQCN in some upstream patterns
+  - yaml[truthy]
+
+exclude_paths:
+  - .git/
+  - molecule/
+
+warn_list:
+  - experimental
