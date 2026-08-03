@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
@@ -32,7 +32,8 @@ jobs:
       - name: Run ansible-lint
         run: |
           ansible-galaxy collection install -r requirements.yml
-          ansible-lint playbook.yml
+          ansible-galaxy collection install -r molecule/default/requirements.yml
+          ansible-lint
 
   molecule:
     name: Molecule — WildFly cluster
@@ -43,10 +44,10 @@ jobs:
         python_version: ["3.12"]
     steps:
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python ${{ matrix.python_version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ matrix.python_version }}
 

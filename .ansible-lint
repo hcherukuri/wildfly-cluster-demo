@@ -8,7 +8,8 @@ skip_list:
 
 exclude_paths:
   - .git/
-  - molecule/
+  # Devfile is IDE/workspace metadata, not Ansible content
+  - devfile.yaml
 
 warn_list:
   - experimental

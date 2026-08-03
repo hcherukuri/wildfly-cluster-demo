@@ -11,6 +11,7 @@ wildfly_user: 'wildfly'
 wildfly_group: 'wildfly'
 
 # --------------- Java ----------------------------------------
+# JDK 21 matches the UBI 9 / RHEL 9 Molecule image and supported WildFly 40 runtime.
 wildfly_java_version: 21
 wildfly_java_opts: '-Xmx1024M -Xms512M'
 
